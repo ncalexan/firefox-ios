@@ -2,9 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import UIKit
 import Alamofire
 import MessageUI
+import UIKit
+import XCGLogger
+
+let log = XCGLogger.defaultInstance()
 
 #if MOZ_CHANNEL_AURORA
 /*
@@ -22,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var profile: Profile!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        log.info("Firefox starting!")
+
         // Setup a web server that serves us static content. Do this early so that it is ready when the UI is presented.
         setupWebServer()
 
