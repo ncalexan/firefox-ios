@@ -396,13 +396,6 @@
 			remoteGlobalIDString = 2827315D1ABC9BE600AA1954;
 			remoteInfo = Sync;
 		};
-		2827316C1ABC9BE700AA1954 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F84B21B61A090F8100AAB793 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F84B21BD1A090F8100AAB793;
-			remoteInfo = Client;
-		};
 		282731731ABC9BE700AA1954 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F84B21B61A090F8100AAB793 /* Project object */;
@@ -430,6 +423,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 28F9520619D0F9FB00DCE892;
 			remoteInfo = FxATests;
+		};
+		2F11EE4F1ABCAE910083902D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F84B21B61A090F8100AAB793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 288A2D851AB8B3260023ABC3;
+			remoteInfo = Shared;
 		};
 		2F14E1171ABB88CB00FF98DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -493,6 +493,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 6CA0A8071A75135D00AC539F;
 			remoteInfo = SecEncodeTransformTests;
+		};
+		2F77F69C1ABCAEFE00484F3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28CE83CA1A1D1D5100576538 /* FxA.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 28F951FA19D0F9FA00DCE892;
+			remoteInfo = FxA;
+		};
+		2F77F6B81ABCAF0700484F3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F84B21B61A090F8100AAB793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2FA435FA1ABB83B4008031D1;
+			remoteInfo = Account;
 		};
 		2F9A72311ABB856100F9F05D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1950,6 +1964,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				2F77F6B91ABCAF0700484F3A /* PBXTargetDependency */,
+				2F77F69D1ABCAEFE00484F3A /* PBXTargetDependency */,
+				2F11EE501ABCAE910083902D /* PBXTargetDependency */,
 			);
 			name = Sync;
 			productName = Sync;
@@ -1968,7 +1985,6 @@
 			);
 			dependencies = (
 				2827316B1ABC9BE700AA1954 /* PBXTargetDependency */,
-				2827316D1ABC9BE700AA1954 /* PBXTargetDependency */,
 			);
 			name = SyncTests;
 			productName = SyncTests;
@@ -3009,11 +3025,6 @@
 			target = 2827315D1ABC9BE600AA1954 /* Sync */;
 			targetProxy = 2827316A1ABC9BE700AA1954 /* PBXContainerItemProxy */;
 		};
-		2827316D1ABC9BE700AA1954 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F84B21BD1A090F8100AAB793 /* Client */;
-			targetProxy = 2827316C1ABC9BE700AA1954 /* PBXContainerItemProxy */;
-		};
 		282731741ABC9BE700AA1954 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2827315D1ABC9BE600AA1954 /* Sync */;
@@ -3023,6 +3034,11 @@
 			isa = PBXTargetDependency;
 			target = 288A2D851AB8B3260023ABC3 /* Shared */;
 			targetProxy = 288A2D9B1AB8B3260023ABC3 /* PBXContainerItemProxy */;
+		};
+		2F11EE501ABCAE910083902D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 288A2D851AB8B3260023ABC3 /* Shared */;
+			targetProxy = 2F11EE4F1ABCAE910083902D /* PBXContainerItemProxy */;
 		};
 		2F14E1181ABB88CB00FF98DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3043,6 +3059,16 @@
 			isa = PBXTargetDependency;
 			name = "XCGLogger (iOS)";
 			targetProxy = 2F14E1371ABB88E000FF98DB /* PBXContainerItemProxy */;
+		};
+		2F77F69D1ABCAEFE00484F3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FxA;
+			targetProxy = 2F77F69C1ABCAEFE00484F3A /* PBXContainerItemProxy */;
+		};
+		2F77F6B91ABCAF0700484F3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2FA435FA1ABB83B4008031D1 /* Account */;
+			targetProxy = 2F77F6B81ABCAF0700484F3A /* PBXContainerItemProxy */;
 		};
 		2F9A72321ABB856100F9F05D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
