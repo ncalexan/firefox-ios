@@ -164,7 +164,7 @@ public class Sync15CollectionClient<T: CleartextPayloadJSON> {
     init(client: Sync15StorageClient, serverURI: NSURL, collection: String, factory: (String) -> T?) {
         self.client = client
         self.factory = factory
-        self.collectionURI = serverURI.URLByAppendingPathComponent(collection)
+        self.collectionURI = serverURI.URLByAppendingPathComponent(collection, isDirectory: true)
     }
 
     private func uriForRecord(guid: String) -> NSURL {
