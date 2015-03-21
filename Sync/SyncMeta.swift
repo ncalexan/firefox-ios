@@ -17,22 +17,22 @@ public struct EngineMeta {
     }
 }
 
-public struct Global {
+public struct MetaGlobal {
     let syncID: String
     let storageVersion: Int
     let engines: [String: EngineMeta]?      // Is this really optional?
     let declined: [String]?
 
     // TODO: is it more useful to support partial globals?
-    public static func fromJSON(json: JSON) -> Global? {
+    public static func fromJSON(json: JSON) -> MetaGlobal? {
         if let syncID = json["syncID"].asString {
             if let storageVersion = json["storageVersion"].asInt {
                 let engines = EngineMeta.mapFromJSON(json["engines"].asDictionary)
                 let declined = json["declined"].asArray
-                return Global(syncID: syncID,
-                              storageVersion: storageVersion,
-                              engines: engines,
-                              declined: jsonsToStrings(declined))
+                return MetaGlobal(syncID: syncID,
+                                  storageVersion: storageVersion,
+                                  engines: engines,
+                                  declined: jsonsToStrings(declined))
             }
         }
         return nil
@@ -46,7 +46,7 @@ public class SyncMeta {
     let syncKey: KeyBundle
 
     var keys: Keys?
-    var global: Global?
+    var global: MetaGlobal?
 
     public init(syncKey: KeyBundle) {
         self.syncKey = syncKey
