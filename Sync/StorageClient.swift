@@ -99,6 +99,10 @@ public struct ResponseMetadata {
     public let backoffMilliseconds: Int64?
     public let retryAfterMilliseconds: Int64?
 
+    public init(response: NSHTTPURLResponse) {
+        self.init(headers: response.allHeaderFields)
+    }
+
     public init(headers: [NSObject : AnyObject]) {
         alert = headers["X-Weave-Alert"] as? String
         nextOffset = headers["X-Weave-Next-Offset"] as? String
