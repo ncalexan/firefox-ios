@@ -24,7 +24,7 @@ class LiveStorageClientTests : LiveAccountTest {
         let endpoint = token.api_endpoint
         XCTAssertTrue(endpoint.rangeOfString("services.mozilla.com") != nil, "We got a Sync server.")
 
-        let cryptoURI = NSURL(string: endpoint + "/storage/crypto/")
+        let cryptoURI = NSURL(string: endpoint + "/storage/")
         let authorizer: Authorizer = {
             (r: NSMutableURLRequest) -> NSMutableURLRequest in
             let helper = HawkHelper(id: token.id, key: token.key.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
@@ -41,7 +41,9 @@ class LiveStorageClientTests : LiveAccountTest {
 
         let workQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         let resultQueue = dispatch_get_main_queue()
-        let keysFetcher = Sync15StorageClient(serverURI: cryptoURI!, authorizer: authorizer, factory: keysFactory, workQueue: workQueue, resultQueue: resultQueue)
+
+        let storageClient = Sync15StorageClient(serverURI: cryptoURI!, authorizer: authorizer, workQueue: workQueue, resultQueue: resultQueue)
+        let keysFetcher = storageClient.collectionClient("crypto", factory: keysFactory)
 
         return keysFetcher.get("keys").map({
             // Unwrap the response.

@@ -124,22 +124,21 @@ public struct StorageResponse<T> {
 public typealias Authorizer = (NSMutableURLRequest) -> NSMutableURLRequest
 
 // Don't forget to batch downloads.
-public class Sync15StorageClient<T : CleartextPayloadJSON> {
-    private let serverURI: NSURL
+public class Sync15StorageClient {
     private let authorizer: Authorizer
-    private let factory: (String) -> T?
-    private let workQueue: dispatch_queue_t
-    private let resultQueue: dispatch_queue_t
+    private let serverURI: NSURL
 
-    public init(serverURI: NSURL, authorizer: Authorizer, factory: (String) -> T?, workQueue: dispatch_queue_t, resultQueue: dispatch_queue_t) {
+    let workQueue: dispatch_queue_t
+    let resultQueue: dispatch_queue_t
+
+    public init(serverURI: NSURL, authorizer: Authorizer, workQueue: dispatch_queue_t, resultQueue: dispatch_queue_t) {
         self.serverURI = serverURI
         self.authorizer = authorizer
-        self.factory = factory
         self.workQueue = workQueue
         self.resultQueue = resultQueue
     }
 
-    private func requestGET(url: NSURL) -> Request {
+    func requestGET(url: NSURL) -> Request {
         let req = NSMutableURLRequest(URL: url)
         req.HTTPMethod = Method.GET.rawValue
         req.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -148,14 +147,34 @@ public class Sync15StorageClient<T : CleartextPayloadJSON> {
                         .validate(contentType: ["application/json"])
     }
 
+    func collectionClient<T: CleartextPayloadJSON>(collection: String, factory: (String) -> T?) -> Sync15CollectionClient<T> {
+        return Sync15CollectionClient(client: self, serverURI: self.serverURI, collection: collection, factory: factory)
+    }
+}
+
+/**
+* We'd love to nest this in the overall storage client, but Swift
+* forbids the nesting of a generic class inside another class.
+*/
+public class Sync15CollectionClient<T: CleartextPayloadJSON> {
+    private let client: Sync15StorageClient
+    private let factory: (String) -> T?
+    private let collectionURI: NSURL
+
+    init(client: Sync15StorageClient, serverURI: NSURL, collection: String, factory: (String) -> T?) {
+        self.client = client
+        self.factory = factory
+        self.collectionURI = serverURI.URLByAppendingPathComponent(collection)
+    }
+
     private func uriForRecord(guid: String) -> NSURL {
-        return self.serverURI.URLByAppendingPathComponent(guid)
+        return self.collectionURI.URLByAppendingPathComponent(guid)
     }
 
     public func get(guid: String) -> Deferred<Result<StorageResponse<Record<T>>>> {
-        let deferred = Deferred<Result<StorageResponse<Record<T>>>>(defaultQueue: self.resultQueue)
+        let deferred = Deferred<Result<StorageResponse<Record<T>>>>(defaultQueue: client.resultQueue)
 
-        let req = requestGET(uriForRecord(guid))
+        let req = client.requestGET(uriForRecord(guid))
         req.responseParsedJSON { (_, response, data, error) in
             println("Response is \(response), data is \(data)")
 
@@ -211,9 +230,9 @@ public class Sync15StorageClient<T : CleartextPayloadJSON> {
      * another Serializer, and we're loading everything into memory anyway.
      */
     public func getSince(since: Int64) -> Deferred<Result<StorageResponse<[Record<T>]>>> {
-        let deferred = Deferred<Result<StorageResponse<[Record<T>]>>>(defaultQueue: self.resultQueue)
+        let deferred = Deferred<Result<StorageResponse<[Record<T>]>>>(defaultQueue: client.resultQueue)
 
-        let req = requestGET(self.serverURI)
+        let req = client.requestGET(self.collectionURI)
         req.responseParsedJSON { (_, response, data, error) in
             if let error = error {
                 deferred.fill(Result(failure: error))
