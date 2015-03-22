@@ -153,9 +153,9 @@ public class Sync15StorageClient {
 }
 
 /**
-* We'd love to nest this in the overall storage client, but Swift
-* forbids the nesting of a generic class inside another class.
-*/
+ * We'd love to nest this in the overall storage client, but Swift
+ * forbids the nesting of a generic class inside another class.
+ */
 public class Sync15CollectionClient<T: CleartextPayloadJSON> {
     private let client: Sync15StorageClient
     private let factory: (String) -> T?
