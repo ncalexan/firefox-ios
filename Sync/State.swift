@@ -270,10 +270,11 @@ public class Scratchpad {
         if let keyLabel = prefs.stringForKey(PrefKeyLabel) {
             b.keyLabel = keyLabel
             if let ckTS = prefs.unsignedLongForKey(PrefKeysTS) {
-                if let keys = KeychainWrapper.objectForKey("keys." + keyLabel) as? String {
+                if let keys = KeychainWrapper.stringForKey("keys." + keyLabel) {
                     // We serialize as JSON.
                     let keys = Keys(payload: KeysPayload(keys))
                     if keys.valid {
+                        log.debug("Read keys from Keychain with label \(keyLabel).")
                         b.setKeys(Fetched(value: keys, timestamp: ckTS))
                     } else {
                         log.error("Invalid keys extracted from Keychain. Discarding.")
@@ -331,6 +332,8 @@ public class Scratchpad {
             let payload = keys.value.asPayload().toString(pretty: false)
             let label = "keys." + self.keyLabel
             log.debug("Storing keys in Keychain with label \(label).")
+            prefs.setString(self.keyLabel, forKey: PrefKeyLabel)
+            prefs.setLong(keys.timestamp, forKey: PrefKeysTS)
 
             // TODO: I could have sworn that we could specify kSecAttrAccessibleAfterFirstUnlock here.
             KeychainWrapper.setString(payload, forKey: label)
