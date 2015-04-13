@@ -268,6 +268,7 @@ public class Scratchpad {
         }
 
         if let keyLabel = prefs.stringForKey(PrefKeyLabel) {
+            b.keyLabel = keyLabel
             if let ckTS = prefs.unsignedLongForKey(PrefKeysTS) {
                 if let keys = KeychainWrapper.objectForKey("keys." + keyLabel) as? String {
                     // We serialize as JSON.
